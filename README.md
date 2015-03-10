@@ -6,6 +6,28 @@ A library for the Arduino to interface with the Philips PCD8544 LCD controller/d
 
 ## Functions
 
+#### Initialize the LCD
+
+```C
+void lcd_init(struct lcd_pins *p)
+```
+
+| Parameter | Description |
+| :--- | :--- |
+| p | the pins connected to the LCD |
+
+```
+struct lcd_pins {
+	uint8_t res;
+	uint8_t sce;
+	uint8_t dc;
+	uint8_t sdin;
+	uint8_t sclk;
+};
+```
+
+<br>
+
 #### Set the contrast of the LCD
 
 ```C
@@ -76,28 +98,6 @@ void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos)
 | str | the string to write |
 | x | Horizontal position (0 <= x <= 83)
 | y | Vertical position (0 <= y <= 5)
-
-<br>
-
-#### Initialize the LCD
-
-```C
-void lcd_init(struct lcd_pins *p)
-```
-
-| Parameter | Description |
-| :--- | :--- |
-| p | the pins connected to the LCD |
-
-```
-struct lcd_pins {
-	uint8_t res;
-	uint8_t sce;
-	uint8_t dc;
-	uint8_t sdin;
-	uint8_t sclk;
-};
-```
 
 ## Example
 
