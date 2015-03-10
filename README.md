@@ -29,11 +29,15 @@ void lcd_setpos(uint8_t x, uint8_t y)
 | x | Horizontal position (0 <= x <= 83)
 | y | Vertical position (0 <= y <= 5)
 
+<br>
+
 #### Clear the LCD
 
 ```C
 void lcd_clear(void)
 ```
+
+<br>
 
 #### Write a string to the LCD, starting at the current cursor position
 
@@ -44,6 +48,8 @@ void lcd_print(char *str)
 | Parameter | Description |
 | :--- | :--- |
 | str | the string to write |
+
+<br>
 
 #### Write a string to the LCD, starting at the specified location
 
@@ -57,6 +63,8 @@ void lcd_printat(char *str, uint8_t x, uint8_t y)
 | x | Horizontal position (0 <= x <= 83)
 | y | Vertical position (0 <= y <= 5)
 
+<br>
+
 #### Write a string to the LCD with word wrapping, starting at the specified location
 
 ```C
@@ -68,6 +76,8 @@ void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos)
 | str | the string to write |
 | x | Horizontal position (0 <= x <= 83)
 | y | Vertical position (0 <= y <= 5)
+
+<br>
 
 #### Initialize the LCD
 
