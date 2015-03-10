@@ -135,6 +135,7 @@ void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos) {
 	}
 }
 
+/* Initialize the LCD */
 void lcd_init(struct lcd_pins *p) {
 	pins = p;
 
