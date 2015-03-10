@@ -4,11 +4,90 @@
 
 A library for the Arduino to interface with the Philips PCD8544 LCD controller/driver (commonly found on Nokia 5110 and Nokia 3310 LCDs).
 
-![alt text](http://i.imgur.com/5RMZ97Z.gif "PCD8544")
-
 ## Functions
 
-TODO
+#### Set the contrast of the LCD
+
+```C
+void lcd_contrast(uint8_t vop)
+```
+
+| Parameter | Description |
+| :--- | :--- |
+| vop | operation voltage |
+
+<br>
+
+#### Set the position of the cursor
+
+```C
+void lcd_setpos(uint8_t x, uint8_t y)
+```
+
+| Parameter | Description |
+| :--- | :--- |
+| x | Horizontal position (0 <= x <= 83)
+| y | Vertical position (0 <= y <= 5)
+
+#### Clear the LCD
+
+```C
+void lcd_clear(void)
+```
+
+#### Write a string to the LCD, starting at the current cursor position
+
+```C
+void lcd_print(char *str)
+```
+
+| Parameter | Description |
+| :--- | :--- |
+| str | the string to write |
+
+#### Write a string to the LCD, starting at the specified location
+
+```C
+void lcd_printat(char *str, uint8_t x, uint8_t y)
+```
+
+| Parameter | Description |
+| :--- | :--- |
+| str | the string to write |
+| x | Horizontal position (0 <= x <= 83)
+| y | Vertical position (0 <= y <= 5)
+
+#### Write a string to the LCD with word wrapping, starting at the specified location
+
+```C
+void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos)
+```
+
+| Parameter | Description |
+| :--- | :--- |
+| str | the string to write |
+| x | Horizontal position (0 <= x <= 83)
+| y | Vertical position (0 <= y <= 5)
+
+#### Initialize the LCD
+
+```C
+void lcd_init(struct lcd_pins *p)
+```
+
+| Parameter | Description |
+| :--- | :--- |
+| p | the pins connected to the LCD |
+
+```
+struct lcd_pins {
+	uint8_t res;
+	uint8_t sce;
+	uint8_t dc;
+	uint8_t sdin;
+	uint8_t sclk;
+};
+```
 
 ## Example
 
@@ -42,3 +121,5 @@ void loop() {
 	delay(1000);
 }
 ```
+
+![alt text](http://i.imgur.com/5RMZ97Z.gif "PCD8544")
