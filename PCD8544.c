@@ -3,12 +3,6 @@
 #include <Arduino.h>
 #include <string.h>
 
-enum info {
-	MAX_X = 84,
-	MAX_Y = 6,
-	MAX_X_CHARS = MAX_X / (FONT_WIDTH + 1),
-};
-
 enum instructions {
 	FUNCTION_SET = bit(5),
 	BASIC_INSTRUCTION = FUNCTION_SET,
@@ -63,8 +57,8 @@ void lcd_contrast(uint8_t vop) {
 
 /* Set the position of the cursor */
 void lcd_setpos(uint8_t x, uint8_t y) {
-	x %= MAX_X;
-	y %= MAX_Y;
+	x %= LCD_MAX_X;
+	y %= LCD_MAX_Y;
 	send_cmd(SET_X | x);
 	send_cmd(SET_Y | y);
 }
@@ -73,7 +67,7 @@ void lcd_setpos(uint8_t x, uint8_t y) {
 void lcd_clear(void) {
 	lcd_setpos(0, 0);
 	int i;
-	for (i = 0; i < (MAX_X * MAX_Y); i++) {
+	for (i = 0; i < (LCD_MAX_X * LCD_MAX_Y); i++) {
 		send_data(NULL);
 	}
 	lcd_setpos(0, 0);
@@ -88,7 +82,7 @@ void lcd_print(char *str) {
 
 /* Write a string to the LCD, starting at the specified location */
 void lcd_printat(char *str, uint8_t x, uint8_t y) {
-	lcd_setpos(x % MAX_X, y % MAX_Y);
+	lcd_setpos(x % LCD_MAX_X, y % LCD_MAX_Y);
 	while (*str) {
 		send_char(*str++);
 	}
@@ -97,7 +91,7 @@ void lcd_printat(char *str, uint8_t x, uint8_t y) {
 /* Write a string to the LCD with word wrapping */
 void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos) {
 	while (*str) {
-		int wraploc = MAX_X_CHARS;
+		int wraploc = LCD_MAX_X_CHARS;
 
 		/* Check if it's short enough to write */
 		if (strlen(str) <= wraploc) {
@@ -124,14 +118,14 @@ void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos) {
 			/* No space character to wrap at */
 			lcd_setpos(xpos, ypos);
 			int i;
-			for (i = 0; i < MAX_X_CHARS; i++) {
+			for (i = 0; i < LCD_MAX_X_CHARS; i++) {
 				send_char(*str++);
 			}
 		}
 
 		/* Move cursor to next line */
 		xpos = 0;
-		ypos = (ypos + 1) % MAX_Y;
+		ypos = (ypos + 1) % LCD_MAX_Y;
 	}
 }
 

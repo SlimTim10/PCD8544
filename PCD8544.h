@@ -1,11 +1,19 @@
 #ifndef PCD8544_H
 #define PCD8544_H
 
+#include "font.h"
 #include <Arduino.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+	enum info {
+		LCD_MAX_X = 84,
+		LCD_MAX_Y = 6,
+		LCD_MAX_X_CHARS = LCD_MAX_X / (FONT_WIDTH + 1),
+		LCD_MAX_CHARS = (LCD_MAX_X * LCD_MAX_Y) / (FONT_WIDTH + 1),
+	};
 
 	struct lcd_pins {
 		uint8_t res;
@@ -22,6 +30,12 @@ extern "C" {
 	void lcd_printat(char *, uint8_t, uint8_t);
 	void lcd_printwrap(char const *, uint8_t, uint8_t);
 	void lcd_init(struct lcd_pins *);
+
+#define lcd_printf(...)	({\
+			char tmpstr[LCD_MAX_CHARS];\
+			sprintf(tmpstr, __VA_ARGS__);\
+			lcd_print(tmpstr);\
+		})
 
 #ifdef __cplusplus
 }
