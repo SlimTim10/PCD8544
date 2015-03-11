@@ -26,9 +26,9 @@ extern "C" {
 	void lcd_contrast(uint8_t);
 	void lcd_setpos(uint8_t, uint8_t);
 	void lcd_clear(void);
-	void lcd_print(char *);
-	void lcd_printat(char *, uint8_t, uint8_t);
-	void lcd_printwrap(char const *, uint8_t, uint8_t);
+	void lcd_print(const char *);
+	void lcd_printat(const char *, uint8_t, uint8_t);
+	void lcd_printwrap(const char *, uint8_t, uint8_t);
 	void lcd_init(struct lcd_pins *);
 
 #define lcd_printf(...)	({\

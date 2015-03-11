@@ -74,14 +74,14 @@ void lcd_clear(void) {
 }
 
 /* Write a string to the LCD */
-void lcd_print(char *str) {
+void lcd_print(const char *str) {
 	while (*str) {
 		send_char(*str++);
 	}
 }
 
 /* Write a string to the LCD, starting at the specified location */
-void lcd_printat(char *str, uint8_t x, uint8_t y) {
+void lcd_printat(const char *str, uint8_t x, uint8_t y) {
 	lcd_setpos(x % LCD_MAX_X, y % LCD_MAX_Y);
 	while (*str) {
 		send_char(*str++);
@@ -89,7 +89,7 @@ void lcd_printat(char *str, uint8_t x, uint8_t y) {
 }
 
 /* Write a string to the LCD with word wrapping */
-void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos) {
+void lcd_printwrap(const char *str, uint8_t xpos, uint8_t ypos) {
 	while (*str) {
 		int wraploc = LCD_MAX_X_CHARS;
 
