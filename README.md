@@ -64,7 +64,7 @@ void lcd_clear(void)
 #### Write a string to the LCD, starting at the current cursor position
 
 ```C
-void lcd_print(char *str)
+void lcd_print(const char *str)
 ```
 
 | Parameter | Description |
@@ -76,7 +76,7 @@ void lcd_print(char *str)
 #### Write a string to the LCD, starting at the specified location
 
 ```C
-void lcd_printat(char *str, uint8_t x, uint8_t y)
+void lcd_printat(const char *str, uint8_t x, uint8_t y)
 ```
 
 | Parameter | Description |
@@ -90,7 +90,7 @@ void lcd_printat(char *str, uint8_t x, uint8_t y)
 #### Write a string to the LCD with word wrapping, starting at the specified location
 
 ```C
-void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos)
+void lcd_printwrap(const char *str, uint8_t xpos, uint8_t ypos)
 ```
 
 | Parameter | Description |
