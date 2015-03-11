@@ -48,8 +48,8 @@ void lcd_setpos(uint8_t x, uint8_t y)
 
 | Parameter | Description |
 | :--- | :--- |
-| x | Horizontal position (0 <= x <= 83)
-| y | Vertical position (0 <= y <= 5)
+| x | Horizontal position (0 <= x <= 83) |
+| y | Vertical position (0 <= y <= 5) |
 
 <br>
 
@@ -82,8 +82,8 @@ void lcd_printat(char *str, uint8_t x, uint8_t y)
 | Parameter | Description |
 | :--- | :--- |
 | str | the string to write |
-| x | Horizontal position (0 <= x <= 83)
-| y | Vertical position (0 <= y <= 5)
+| x | Horizontal position (0 <= x <= 83) |
+| y | Vertical position (0 <= y <= 5) |
 
 <br>
 
@@ -96,8 +96,18 @@ void lcd_printwrap(char const *str, uint8_t xpos, uint8_t ypos)
 | Parameter | Description |
 | :--- | :--- |
 | str | the string to write |
-| x | Horizontal position (0 <= x <= 83)
-| y | Vertical position (0 <= y <= 5)
+| x | Horizontal position (0 <= x <= 83) |
+| y | Vertical position (0 <= y <= 5) |
+
+<br>
+
+#### Write a string to the LCD in the style of `printf`, starting at the current cursor position
+
+```C
+void lcd_printf(const char *format, ...)
+```
+
+Read about [`printf`](http://en.cppreference.com/w/c/io/fprintf).
 
 ## Example
 
