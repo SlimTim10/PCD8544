@@ -23,6 +23,7 @@ extern "C" {
 		uint8_t sclk;
 	};
 
+	void send_char(char);
 	void lcd_contrast(uint8_t);
 	void lcd_setpos(uint8_t, uint8_t);
 	void lcd_clear(void);

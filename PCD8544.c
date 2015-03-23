@@ -39,7 +39,7 @@ static void send_data(uint8_t data) {
 }
 
 /* Send a single ASCII character to the LCD */
-static void send_char(char c) {
+void send_char(char c) {
 	int i;
 	for (i = 0; i < FONT_WIDTH; i++) {
 		send_data(font5x8[c - ASCII_SPC][i]);
