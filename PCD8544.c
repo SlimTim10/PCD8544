@@ -3,6 +3,23 @@
 #include <Arduino.h>
 #include <string.h>
 
+#define SET_BIT(P, B)	(P |= B)
+#define CLR_BIT(P, B)	(P &= (~B))
+
+static struct rawports {
+	volatile uint8_t *sce;
+	volatile uint8_t *dc;
+	volatile uint8_t *sdin;
+	volatile uint8_t *sclk;
+} port;
+
+static struct bitmasks {
+	uint8_t sce;
+	uint8_t dc;
+	uint8_t sdin;
+	uint8_t sclk;
+} bitmask;
+
 enum instructions {
 	FUNCTION_SET = bit(5),
 	BASIC_INSTRUCTION = FUNCTION_SET,
@@ -20,22 +37,31 @@ static struct lcd_pins *pins;
 
 /* Send a command to the LCD */
 static void send_cmd(uint8_t cmd) {
-	digitalWrite(pins->sce, HIGH);
-	digitalWrite(pins->sclk, LOW);
-	digitalWrite(pins->dc, LOW);
-	digitalWrite(pins->sce, LOW);
-	shiftOut(pins->sdin, pins->sclk, MSBFIRST, cmd);
-	digitalWrite(pins->sce, HIGH);
-}
+	SET_BIT(*port.sce, bitmask.sce);
+	CLR_BIT(*port.sclk, bitmask.sclk);
+	CLR_BIT(*port.dc, bitmask.dc);
+	CLR_BIT(*port.sce, bitmask.sce);
+	uint8_t i;
+	for (i = 0x80; i; i >>= 1) {
+		(cmd & i) ? SET_BIT(*port.sdin, bitmask.sdin) : CLR_BIT(*port.sdin, bitmask.sdin);
+		SET_BIT(*port.sclk, bitmask.sclk);
+		CLR_BIT(*port.sclk, bitmask.sclk);
+	}
+	SET_BIT(*port.sce, bitmask.sce);}
 
 /* Send a data byte to the LCD */
 static void send_data(uint8_t data) {
-	digitalWrite(pins->sce, HIGH);
-	digitalWrite(pins->sclk, LOW);
-	digitalWrite(pins->dc, HIGH);
-	digitalWrite(pins->sce, LOW);
-	shiftOut(pins->sdin, pins->sclk, MSBFIRST, data);
-	digitalWrite(pins->sce, HIGH);
+	SET_BIT(*port.sce, bitmask.sce);
+	CLR_BIT(*port.sclk, bitmask.sclk);
+	SET_BIT(*port.dc, bitmask.dc);
+	CLR_BIT(*port.sce, bitmask.sce);
+	uint8_t i;
+	for (i = 0x80; i; i >>= 1) {
+		(data & i) ? SET_BIT(*port.sdin, bitmask.sdin) : CLR_BIT(*port.sdin, bitmask.sdin);
+		SET_BIT(*port.sclk, bitmask.sclk);
+		CLR_BIT(*port.sclk, bitmask.sclk);
+	}
+	SET_BIT(*port.sce, bitmask.sce);
 }
 
 /* Send a single ASCII character to the LCD */
@@ -132,6 +158,16 @@ void lcd_printwrap(const char *str, uint8_t xpos, uint8_t ypos) {
 /* Initialize the LCD */
 void lcd_init(struct lcd_pins *p) {
 	pins = p;
+
+	port.sce = portOutputRegister(digitalPinToPort(pins->sce));
+	bitmask.sce = digitalPinToBitMask(pins->sce);
+	port.dc = portOutputRegister(digitalPinToPort(pins->dc));
+	bitmask.dc = digitalPinToBitMask(pins->dc);
+	port.sdin = portOutputRegister(digitalPinToPort(pins->sdin));
+	bitmask.sdin = digitalPinToBitMask(pins->sdin);
+	port.sclk = portOutputRegister(digitalPinToPort(pins->sclk));
+	bitmask.sclk = digitalPinToBitMask(pins->sclk);
+
 
 	pinMode(pins->res, OUTPUT);
 	pinMode(pins->sce, OUTPUT);
