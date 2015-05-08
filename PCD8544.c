@@ -68,7 +68,7 @@ void lcd_send_data(uint8_t data) {
 void lcd_send_char(char c) {
 	int i;
 	for (i = 0; i < FONT_WIDTH; i++) {
-		lcd_send_data(font5x8[c - ASCII_SPC][i]);
+		lcd_send_data(pgm_read_byte(&font5x8[c - ASCII_SPC][i]));
 	}
 	lcd_send_data(NULL);
 }
